@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/08 18:31:37 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/10/06 14:20:19 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/10/07 15:46:56 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void			pixel_put(t_mlx *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-// unsigned int	retrieve_texture_pixel(t_texture *data, int x, int y)
-// {
-// 	unsigned int color;
+unsigned int	retrieve_texture_pixel(t_sprite *data, int x, int y)
+{
+	unsigned int color;
 
-// 	color = *((unsigned int*)(data->addr + (y * data->line_length)
-// 	+ (x * data->bits_per_pixel / 8)));
-// 	return (color);
-// }
+	color = *((unsigned int*)(data->addr + (y * data->line_length)
+	+ (x * data->bits_per_pixel / 8)));
+	return (color);
+}

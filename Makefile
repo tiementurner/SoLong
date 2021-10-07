@@ -6,27 +6,39 @@
 #    By: tblanker <tblanker@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/10/06 13:45:54 by tblanker      #+#    #+#                  #
-#    Updated: 2021/10/06 15:04:10 by tblanker      ########   odam.nl          #
+#    Updated: 2021/10/07 13:18:35 by tblanker      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 CC_FLAGS = -Wall -Werror -Wextra 
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    CC_FLAGS += -D LINUX
+    CCL_FLAGS += -lXext -lX11 -lm
+    MINILIBX = libmlx.a
+    MINILIBX_D = minilibx-linux
+endif
+ifeq ($(UNAME_S),Darwin)
+    CC_FLAGS += -D OSX
+    CCL_FLAGS += -framework AppKit -framework OpenGL
+    MINILIBX = libmlx.dylib
+    MINILIBX_D = minilibx
+endif
+
 NAME = SoLong
 
 CC = clang
 
-FILES = main.c pixel_functions.c key_handling.c
+FILES = main.c pixel_functions.c key_handling.c draw.c movement.c
 
 OFILES = $(FILES:.c=.o)
 
 LIBS = libmlx.dylib -lft
 
-MINILIBX = libmlx.dylib
-
 LIBFT	= libft.a
 
-ALL = $(NAME)
+all : $(NAME)
 
 $(NAME) : $(OFILES) $(LIBFT) $(MINILIBX)
 	@$(CC)	$(CCL_FLAGS) $(FILES) $(LIBS)	-o $(NAME)
@@ -39,13 +51,13 @@ $(LIBFT) :
 	@mv	libft/libft.a .
 
 $(MINILIBX)	:
-	$(MAKE) -C minilibx
-	@mv	minilibx/libmlx.dylib .
+	$(MAKE) -C $(MINILIBX_D)
+	@mv	$(MINILIBX_D)/$(MINILIBX) .
 
 clean	:
 	rm -rf $(OFILES)
 	$(MAKE) clean -C libft
-	$(MAKE)	clean -C minilibx
+	$(MAKE)	clean -C $(MINILIBX_D)
 
 fclean	:	clean
 	rm -rf libmlx.dylib libft.a $(NAME)

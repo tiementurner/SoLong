@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/07 13:15:30 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/10/07 15:46:44 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/09 13:44:38 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,21 @@ unsigned	int	get_sprite_color(t_sprite *sprite, int x, int y)
 
 int	render(t_mlx	*mlx)
 {
+	// printf("key hold: %d\n", mlx->key_is_held);
+	// printf("pos up: %d\n", mlx->position.up);
+	// sleep(1);
 	int	x, y;
 
 	x = 0;
 	y = 0;
 	draw_background(mlx);
+	move(mlx);
 	while (x < mlx->width)
 	{
 		while (y < mlx->height)
 		{
-			if (x < mlx->movement.x_pos + 40 && x > mlx->movement.x_pos && y < mlx->movement.y_pos + 40 && y > mlx->movement.y_pos)
-				pixel_put(mlx, x , y, get_sprite_color(&mlx->sprite, x - mlx->movement.x_pos, y - mlx->movement.y_pos));
+			if (x < mlx->position.x + 40 && x > mlx->position.x && y < mlx->position.y + 40 && y > mlx->position.y)
+				pixel_put(mlx, x , y, get_sprite_color(&mlx->sprite, x - mlx->position.x, y - mlx->position.y));
 			y++;	
 		}
 		y = 0;
@@ -64,6 +68,5 @@ int	render(t_mlx	*mlx)
 	mlx_sync(1, mlx->img);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img, 0, 0);
 	mlx_sync(3, mlx->window);
-	move(mlx);
 	return (0);
 }

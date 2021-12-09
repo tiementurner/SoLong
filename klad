@@ -1,0 +1,14 @@
+	mlx->position.x = 180;
+	mlx->position.y = 180;
+	mlx->position.key_is_held = 0;
+	mlx->position.left = 0;
+	mlx->position.right = 0;
+	mlx->position.up = 0;
+	mlx->position.down = 0;
+	mlx->width = 800;
+	mlx->height = 800;
+	mlx->mlx = mlx_init();
+	load_sprite(&mlx->sprite, mlx->mlx);
+	mlx->window = mlx_new_window(mlx->mlx, mlx->width, mlx->height, "SoLong");
+	mlx->img = mlx_new_image(mlx->mlx, mlx->width, mlx->height);
+	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length, &mlx->endian);

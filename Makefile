@@ -6,7 +6,7 @@
 #    By: tblanker <tblanker@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/10/06 13:45:54 by tblanker      #+#    #+#                  #
-#    Updated: 2021/10/07 13:18:35 by tblanker      ########   odam.nl          #
+#    Updated: 2021/12/09 17:30:17 by tblanker      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ NAME = SoLong
 
 CC = clang
 
-FILES = main.c pixel_functions.c key_handling.c draw.c movement.c
+FILES = main.c pixel_functions.c key_handling.c draw.c movement.c \
+		gnl/get_next_line.c gnl/get_next_line_utils.c parser.c error.c
 
 OFILES = $(FILES:.c=.o)
 

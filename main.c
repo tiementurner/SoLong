@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/05 16:41:55 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/09 17:32:44 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/10 15:18:21 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,40 @@ void	load_sprite(t_sprite *sprite, void *mlx)
 										&sprite->line_length, &sprite->endian);
 }
 
-void	init_player(t_mlx *mlx)
+void	init_player(t_mlx *engine)
 {
-	mlx->position.x = 180;
-	mlx->position.y = 180;
-	mlx->key_is_held = 0;
-	mlx->position.left = 0;
-	mlx->position.right = 0;
-	mlx->position.up = 0;
-	mlx->position.down = 0;
-	mlx->width = 800;
-	mlx->height = 800;
-	mlx->mlx = mlx_init();
-	load_sprite(&mlx->sprite, mlx->mlx);
-	mlx->window = mlx_new_window(mlx->mlx, mlx->width, mlx->height, "SoLong");
-	mlx->img = mlx_new_image(mlx->mlx, mlx->width, mlx->height);
-	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel,
-									&mlx->line_length, &mlx->endian);
+	engine->position.x = 180;
+	engine->position.y = 180;
+	engine->key_is_held = 0;
+	engine->position.left = 0;
+	engine->position.right = 0;
+	engine->position.up = 0;
+	engine->position.down = 0;
+	engine->width = 800;
+	engine->height = 800;
+	engine->mlx = mlx_init();
+	load_sprite(&engine->sprite, engine->mlx);
+	engine->window = mlx_new_window(engine->mlx, engine->width,
+									engine->height, "SoLong");
+	engine->img = mlx_new_image(engine->mlx, engine->width, engine->height);
+	engine->addr = mlx_get_data_addr(engine->img, &engine->bits_per_pixel,
+									&engine->line_length, &engine->endian);
 }	
 
 int		main(int ac, char **av)
 {
-	t_mlx	mlx;
+	t_mlx	engine;
 
 	if (ac != 2)
-		put_error("Invalid amount of arguments\n\nUsage:  ./SoLong [file]\n");
-	parse(av);
+		put_error("Invalid amount of arguments: Usage:  ./SoLong [file]");
+	parse(av, &engine);
 	ft_putstr_fd("Number of moves: 0\n\n", 1);
-	init_player(&mlx);
-	mlx_hook(mlx.window, 17, 1L << 17, &close_window, &mlx);
-	mlx_hook(mlx.window, 02, 1L << 0, &key_press_hook, &mlx);
-	mlx_hook(mlx.window, 03, 1L << 1, &key_release_hook, &mlx);
-	mlx_loop_hook(mlx.mlx, render, &mlx);
+	init_player(&engine);
+	mlx_hook(engine.window, 17, 1L << 17, &close_window, &engine);
+	mlx_hook(engine.window, 02, 1L << 0, &key_press_hook, &engine);
+	mlx_hook(engine.window, 03, 1L << 1, &key_release_hook, &engine);
+	mlx_loop_hook(engine.mlx, render, &engine);
 //	render(&mlx);
-	mlx_loop(mlx.mlx);
+	mlx_loop(engine.mlx);
 	return (0);
 }

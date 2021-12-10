@@ -6,23 +6,23 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/07 13:15:30 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/09 13:44:38 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/10 14:29:32 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static	void	draw_background(t_mlx *mlx)
+static	void	draw_background(t_mlx *engine)
 {
 	int	x, y;
 
 	x = y = 0;
-	while (x < mlx->width)
+	while (x < engine->width)
 	{
 		y = 0;
-		while (y < mlx->height)
+		while (y < engine->height)
 		{
-			pixel_put(mlx, x, y, 0);
+			pixel_put(engine, x, y, 0);
 			y++;
 		}
 		x++;
@@ -43,30 +43,29 @@ unsigned	int	get_sprite_color(t_sprite *sprite, int x, int y)
 	return (color);
 }
 
-int	render(t_mlx	*mlx)
+int	render(t_mlx	*engine)
 {
-	// printf("key hold: %d\n", mlx->key_is_held);
-	// printf("pos up: %d\n", mlx->position.up);
-	// sleep(1);
 	int	x, y;
 
 	x = 0;
 	y = 0;
-	draw_background(mlx);
-	move(mlx);
-	while (x < mlx->width)
+	draw_background(engine);
+	move(engine);
+	while (x < engine->width)
 	{
-		while (y < mlx->height)
+		while (y < engine->height)
 		{
-			if (x < mlx->position.x + 40 && x > mlx->position.x && y < mlx->position.y + 40 && y > mlx->position.y)
-				pixel_put(mlx, x , y, get_sprite_color(&mlx->sprite, x - mlx->position.x, y - mlx->position.y));
+			if (x < engine->position.x + 40 && x > engine->position.x &&
+				y < engine->position.y + 40 && y > engine->position.y)
+				pixel_put(engine, x , y, get_sprite_color(&engine->sprite,
+						x - engine->position.x, y - engine->position.y));
 			y++;	
 		}
 		y = 0;
 		x++;
 	}
-	mlx_sync(1, mlx->img);
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img, 0, 0);
-	mlx_sync(3, mlx->window);
+	mlx_sync(1, engine->img);
+	mlx_put_image_to_window(engine->mlx, engine->window, engine->img, 0, 0);
+	mlx_sync(3, engine->window);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: tblanker <tblanker@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/10/06 13:45:54 by tblanker      #+#    #+#                  #
-#    Updated: 2021/12/09 17:30:17 by tblanker      ########   odam.nl          #
+#    Updated: 2021/12/10 14:53:19 by tblanker      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,10 @@ all : $(NAME)
 $(NAME) : $(OFILES) $(LIBFT) $(MINILIBX)
 	@$(CC)	$(CCL_FLAGS) $(FILES) $(LIBS)	-o $(NAME)
 
+#
 %.o: %.c
-	$(CC) $(CC_FLAGS) -Ilft  -o $@ -c $<
-
+	$(CC) -Ilft  -o $@ -c $< 
+#
 $(LIBFT) :
 	$(MAKE) -C libft
 	@mv	libft/libft.a .

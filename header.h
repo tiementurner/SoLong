@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/06 13:42:33 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/09 17:39:27 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/10 14:31:53 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,20 @@ typedef struct s_mlx	{
 	t_position	position;
 	t_sprite	sprite;
 	int			key_is_held;
+	char		**map;
 }				t_mlx	;
 
 void			pixel_put(t_mlx *data, int x, int y, int color);
 unsigned int	retrieve_texture_pixel(t_sprite *data, int x, int y);
 
-int		render(t_mlx	*mlx);
+int				render(t_mlx	*engine);
 
-int		key_press_hook(int keycode, t_mlx *mlx);
-int		key_release_hook(int keycode, t_mlx *mlx);
-int		close_window(t_mlx *mlx);
+int				key_press_hook(int keycode, t_mlx *engine);
+int				key_release_hook(int keycode, t_mlx *engine);
+int				close_window(t_mlx *engine);
 
-void	move(t_mlx *mlx);
+void			move(t_mlx *engine);
 
-void	put_error(char *error);
+void			put_error(char *error);
 
-char	*parse(char **av);
+char			*parse(char **av, t_mlx *engine);

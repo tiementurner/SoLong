@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/06 13:42:33 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/10 14:31:53 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/13 16:25:28 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int				close_window(t_mlx *engine);
 
 void			move(t_mlx *engine);
 
-void			put_error(char *error);
+void			put_error(char *error, t_mlx *engine);
+void			free_map(t_mlx *engine, int lines);
 
 char			*parse(char **av, t_mlx *engine);

@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/05 16:41:55 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/10 15:18:21 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/14 16:24:39 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		main(int ac, char **av)
 	t_mlx	engine;
 
 	if (ac != 2)
-		put_error("Invalid amount of arguments: Usage:  ./SoLong [file]");
+		put_error("Invalid amount of arguments: Usage:  ./SoLong [file]", &engine);
 	parse(av, &engine);
 	ft_putstr_fd("Number of moves: 0\n\n", 1);
 	init_player(&engine);
@@ -53,7 +53,6 @@ int		main(int ac, char **av)
 	mlx_hook(engine.window, 02, 1L << 0, &key_press_hook, &engine);
 	mlx_hook(engine.window, 03, 1L << 1, &key_release_hook, &engine);
 	mlx_loop_hook(engine.mlx, render, &engine);
-//	render(&mlx);
 	mlx_loop(engine.mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/07 13:15:30 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/10 14:29:32 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/16 12:12:03 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static	void	draw_background(t_mlx *engine)
 {
-	int	x, y;
+	int	x;
+	int	y;
 
 	x = y = 0;
 	while (x < engine->width)
@@ -55,10 +56,13 @@ int	render(t_mlx	*engine)
 	{
 		while (y < engine->height)
 		{
-			if (x < engine->position.x + 40 && x > engine->position.x &&
-				y < engine->position.y + 40 && y > engine->position.y)
+			if (x < engine->player.position.x + 40 &&
+					x > engine->player.position.x &&
+				y < engine->player.position.y + 40 &&
+					y > engine->player.position.y)
 				pixel_put(engine, x , y, get_sprite_color(&engine->sprite,
-						x - engine->position.x, y - engine->position.y));
+						x - engine->player.position.x,
+						y - engine->player.position.y));
 			y++;	
 		}
 		y = 0;

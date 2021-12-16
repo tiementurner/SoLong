@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strdup.c                                        :+:    :+:            */
+/*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/05 11:53:15 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/16 20:47:24 by tblanker      ########   odam.nl         */
+/*   Created: 2021/10/05 16:41:55 by tblanker      #+#    #+#                 */
+/*   Updated: 2021/12/16 21:03:37 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "header.h"
 
-char	*ft_strdup(const char *s1)
+int		main(int ac, char **av)
 {
-	char	*p;
-	size_t	i;
+	t_mlx	engine;
 
-	i = 0;
-	if (NULL == s1)
-		return (NULL);
-	p = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (p)
-	{
-		while (i < ft_strlen(s1))
-		{
-			p[i] = s1[i];
-			i++;
-		}
-		p[ft_strlen(s1)] = '\0';
-	}
-	return (p);
+	if (ac != 2)
+		put_error("Invalid amount of arguments: Usage:  ./SoLong [file]", &engine);
+	parse(av, &engine);
+	validate_map(&engine);
+	ft_putstr_fd("Number of moves: 0\n\n", 1);
+	init_player(&engine);
+	init_mlx(&engine);
+	return (0);
 }

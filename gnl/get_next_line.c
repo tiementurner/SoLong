@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/16 14:00:08 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/14 14:47:11 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/16 17:05:27 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,18 @@ static	int	buf_concatenate(int ret_val, char **buffer, int fd, char **line)
 	return (0);
 }
 
-int			get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line, int iteration, int i)
 {
 	static char *prev_buffer[OPEN_MAX];
 	char		buffer[BUFFER_SIZE + 1];
 	int			ret_val;
 	char		*temp;
 
+	if (iteration > 0 && i == 0)
+	{
+		free(prev_buffer[fd]);
+		prev_buffer[fd] = NULL;
+	}
 	if (prev_buffer[fd] && ft_strchr(prev_buffer[fd], '\n'))
 		return (newline_found(line, prev_buffer, fd));
 	ret_val = read(fd, buffer, BUFFER_SIZE);

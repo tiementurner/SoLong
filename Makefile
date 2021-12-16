@@ -6,7 +6,7 @@
 #    By: tblanker <tblanker@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/10/06 13:45:54 by tblanker      #+#    #+#                  #
-#    Updated: 2021/12/13 15:31:30 by tblanker      ########   odam.nl          #
+#    Updated: 2021/12/16 13:22:02 by tblanker      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,10 @@ NAME = SoLong
 
 CC = clang
 
-FILES = main.c pixel_functions.c key_handling.c draw.c movement.c \
-		gnl/get_next_line.c gnl/get_next_line_utils.c parser.c error.c
+FILES = c_files/main.c c_files/pixel_functions.c c_files/key_handling.c \
+		c_files/draw.c c_files/movement.c  c_files/parser.c c_files/error.c\
+		gnl/get_next_line.c gnl/get_next_line_utils.c \
+		c_files/init.c c_files/validate.c
 
 OFILES = $(FILES:.c=.o)
 
@@ -44,10 +46,10 @@ all : $(NAME)
 $(NAME) : $(OFILES) $(LIBFT) $(MINILIBX)
 	@$(CC)	-g $(CCL_FLAGS) $(FILES) $(LIBS)	-o $(NAME)
 
-#
+
 %.o: %.c
-	$(CC) -g -Ilft  -o $@ -c $< 
-#
+	$(CC) $(CC_FLAGS) -g -Ilft  -o $@ -c $< 
+
 $(LIBFT) :
 	$(MAKE) -C libft
 	@mv	libft/libft.a .

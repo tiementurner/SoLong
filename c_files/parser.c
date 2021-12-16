@@ -6,7 +6,7 @@
 /*   By: tblanker <tblanker@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/14 16:28:08 by tblanker      #+#    #+#                 */
-/*   Updated: 2021/12/14 16:28:09 by tblanker      ########   odam.nl         */
+/*   Updated: 2021/12/16 17:05:31 by tblanker      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,26 @@
 
 static	int		count_lines_in_file(int fd, t_mlx *engine)
 {
-	char	buf[42];
-	int		i;
-	int		j;
+	int		gnl;
 	int		lines;
+	char	*line;
 
+	engine->map.lines = 0;
 	lines = 0;
-	j = 0;
-	while (read(fd, buf, 42))
+	gnl = 1;
+	while (gnl > 0)
 	{
-		if (buf[0] == '\n' && j == 0)
-			put_error ("Invalid map: first line in file is empty", engine);
-		i = 0;
-		while (buf[i])
+		gnl = get_next_line(fd, &line, 0 , 0);
+		if (line[0] == '\0')
 		{
-			if (buf[i] == '\n')
-			{
-				if (buf[i - 1] == '\n')
-					break;
-				lines++;
-			}
-			i++;
+			gnl = 1;
+			break;
 		}
-		j++;
+		free(line);
+		lines++;
 	}
+	if (gnl == 1)
+	 	free(line);
 	return (lines);
 }
 
@@ -61,26 +57,24 @@ void			parse(char **av, t_mlx *engine)
 	int		map_fd;
 	char	*line;
 	int		i;
-	int		lines;
 
 	map_fd = open(av[1], O_RDONLY);
-	lines = count_lines_in_file(map_fd, engine);
-	engine->map = (char **)malloc(sizeof(char *) * lines + 1);
-	if (!engine->map)
+	engine->map.lines = count_lines_in_file(map_fd, engine);
+	engine->map.grid = (char **)malloc(sizeof(char *) * engine->map.lines + 1);
+	if (!engine->map.grid)
 		put_error("Memory allocation failure, fix your pc bro!", engine);
-	engine->map[lines] = NULL;
+	engine->map.grid[engine->map.lines] = NULL;
 	close(map_fd);
 	map_fd = open(av[1], O_RDONLY);
 	i = 0;
-	while (i < lines)
+	while (i < engine->map.lines)
 	{
-		get_next_line(map_fd, &line);
-		engine->map[i] = (char *)malloc(sizeof(char) * ft_strlen(line) + 1);
-		if (!engine->map[i])
+		get_next_line(map_fd, &line, 1, i);
+		engine->map.grid[i] = (char *)malloc(sizeof(char) * ft_strlen(line) + 1);
+		if (!engine->map.grid[i])
 			put_error("Memory allocation failure, fix your pc bro!", engine);
-		fill_map_line(engine->map[i], line);
+		fill_map_line(engine->map.grid[i], line);
 		free(line);
 		i++;
 	}
-	free_map(engine, lines);
 }
